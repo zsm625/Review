@@ -14,3 +14,21 @@
 1、封装：封装的意义，在于明确标识出允许外部使用的所有成员函数和数据项，内部细节对外调用透明，外贸调用无需修改或者关心内部实现
 2、继承： 继承基类的方法，并做出自己的改变或扩展
 3、多态：基于对象所属类的不同，外部对同一个方法的调用，实际执行的逻辑不同
+
+
+
+
+2、intern()方法
+String的intern方法时一个本地方法，它的作用是：如果字符串常量池中已经包含一个等于此String对象的字符串，
+则返回代表池中这个字符串的String对象的引用；否则，会将此String对象包含的字符串添加到常量池中，并返回此String
+对象的引用。在JDK6或者更早之前的hotSpot虚拟机中，常量池都是分配在永久代中，我们可以通过-XX:PermSize 
+和-XX：MaxPermSize 限制永久代的大小，从而间接限制其中常量池的容量
+
+神奇面试题：
+String str = new StringBuilder("ja").append("va").toString();
+System.out.println(str==str.intern());  =====>输出 false
+why？另一个Java从哪里来的呢？
+有一个初始化的java字符串（JDK出自娘胎自带的），在加载sun.misc.Version这个类的时候进入常量池
+
+System-->initializeSystemClass-->Version 类中 定义了java这个字符串的常量 
+根类加载器 提前部署加载rt.jar （sun.misc.Version在这个jar包）
